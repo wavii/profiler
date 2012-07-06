@@ -47,11 +47,11 @@ module Profiler
     end
 
     def own_duration
-      self.duration - self.children.map(&:duration).sum
+      self.duration - (self.children.map(&:duration).reduce(&:+) || 0.0)
     end
 
     def pretty_own_duration
-      "%.3fms" % (self.duration * 1000.0)
+      "%.3fms" % (self.own_duration * 1000.0)
     end
 
     def pretty(options=nil)

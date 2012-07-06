@@ -46,12 +46,20 @@ module Profiler
       self.end - self.start
     end
 
+    def own_duration
+      self.duration - self.children.map(&:duration).sum
+    end
+
+    def pretty_own_duration
+      "%.3fms" % (self.duration * 1000.0)
+    end
+
     def pretty(options=nil)
       options ||= {}
 
       depth = options[:depth] || 0
 
-      line = "#{'  ' * depth}#{self.name}: #{self.pretty_duration}"
+      line = "#{'  ' * depth}#{self.name}: #{self.pretty_duration} (#{self.pretty_own_duration})"
       return line unless options[:nested]
 
       lines = [line] + self.children.map { |child|

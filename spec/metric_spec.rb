@@ -57,7 +57,7 @@ describe Profiler::Metric do
   end
 
   it "should provide a pretty description" do
-    finished_metric.pretty.should match(/^some_metric: [\d\.]+ms$/)
+    finished_metric.pretty.should match(/^some_metric: [\d\.]+ms \([\d\.]+ms\)$/)
   end
 
   describe "with a complex tree" do
@@ -73,18 +73,18 @@ describe Profiler::Metric do
     }
 
     it "should not display nested results by default" do
-      metric.pretty.should match(/^root_metric: [\d\.]+ms$/)
+      metric.pretty.should match(/^root_metric: [\d\.]+ms \([\d\.]+ms\)$/)
     end
 
     it "should display pretty nested results when asked for" do
       lines = metric.pretty(nested: true).split("\n")
 
-      lines[0].should match(/^root_metric: [\d\.]+ms$/)
-      lines[1].should match(/^  child1: [\d\.]+ms$/)
-      lines[2].should match(/^  child2: [\d\.]+ms$/)
-      lines[3].should match(/^  child3: [\d\.]+ms$/)
-      lines[4].should match(/^    grandchild1: [\d\.]+ms$/)
-      lines[5].should match(/^  child4: [\d\.]+ms$/)
+      lines[0].should match(/^root_metric: [\d\.]+ms \([\d\.]+ms\)$/)
+      lines[1].should match(/^  child1: [\d\.]+ms \([\d\.]+ms\)$/)
+      lines[2].should match(/^  child2: [\d\.]+ms \([\d\.]+ms\)$/)
+      lines[3].should match(/^  child3: [\d\.]+ms \([\d\.]+ms\)$/)
+      lines[4].should match(/^    grandchild1: [\d\.]+ms \([\d\.]+ms\)$/)
+      lines[5].should match(/^  child4: [\d\.]+ms \([\d\.]+ms\)$/)
     end
   end
 

@@ -91,4 +91,12 @@ describe Profiler::Helpers do
     )
   end
 
+  it "should not freak out if you profile before starting" do
+    Profiler::Helpers.current_profiler_context = nil
+
+    profilable.instance_eval {
+      profile_call(:hi) { 2 + 2 }
+    }
+  end
+
 end

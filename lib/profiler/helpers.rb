@@ -4,9 +4,10 @@ module Profiler
   module Helpers
 
     def profile_call(name, &block)
-      metric = ::Profiler::Metric.new(name)
       parent_metric = ::Profiler::Helpers.current_profiler_context
+      return self.instance_eval(&block) unless parent_metric
 
+      metric = ::Profiler::Metric.new(name)
       parent_metric << metric
       ::Profiler::Helpers.current_profiler_context = metric
 

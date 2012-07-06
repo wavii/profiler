@@ -7,11 +7,11 @@ describe Profiler::Helpers do
       include mod
 
       def ohai
-        profile(:ohai) { :ohai }
+        profile_call(:ohai) { :ohai }
       end
 
       def do_things(obj, &block)
-        obj.profile(:do_things, &block)
+        obj.profile_call(:do_things, &block)
       end
     } }
   }
@@ -35,7 +35,7 @@ describe Profiler::Helpers do
 
   it "should expose a `profile` helper" do
     with_profiler do
-      profile(:foo) { 2 + 2 }
+      profile_call(:foo) { 2 + 2 }
     end
 
     root.children.map(&:name).should eq([:foo])
@@ -43,14 +43,14 @@ describe Profiler::Helpers do
 
   it "should evaluate blocks in the context of the current object" do
     with_profiler {
-      profile(:foo) { self.ohai }
+      profile_call(:foo) { self.ohai }
     }.should eq(:ohai)
   end
 
   it "should allow nested profiling" do
     with_profiler do
-      profile(:foo) do
-        profile(:bar) do
+      profile_call(:foo) do
+        profile_call(:bar) do
           self.ohai
         end
       end
@@ -74,10 +74,10 @@ describe Profiler::Helpers do
     end
 
     with_profiler do
-      profile(:stuff) { 2 + 2 }
+      profile_call(:stuff) { 2 + 2 }
 
       do_things(other_inst) {
-        other_mod.profile(:from_mod) { 2 + 2 }
+        other_mod.profile_call(:from_mod) { 2 + 2 }
       }
     end
 

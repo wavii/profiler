@@ -3,7 +3,7 @@ require 'profiler/metric'
 module Profiler
   module Helpers
 
-    def profile(name, &block)
+    def profile_call(name, &block)
       metric = ::Profiler::Metric.new(name)
       parent_metric = ::Profiler::Helpers.current_profiler_context
 

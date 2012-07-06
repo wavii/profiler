@@ -26,7 +26,7 @@ module Profiler
 
       def let(name, *args, &block)
         super(name, *args) {
-          profile("let(:#{name})", &block)
+          profile_call("let(:#{name})", &block)
         }
       end
 
